@@ -332,6 +332,9 @@ github.com/spf13/cobra
 # github.com/spf13/pflag v1.0.5
 ## explicit; go 1.12
 github.com/spf13/pflag
+# github.com/supranational/blst v0.3.14
+## explicit; go 1.11
+github.com/supranational/blst/bindings/go
 # go.opencensus.io v0.24.0
 ## explicit; go 1.13
 go.opencensus.io
