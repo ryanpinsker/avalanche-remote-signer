@@ -49,7 +49,7 @@ func New(cfg signerconfig.AWSNitroConfig, log *slog.Logger) (*Backend, error) {
 	)
 
 	// Check if an enclave is already running with the target CID.
-	// This handles the case where Permafrost crashed and restarted while the
+	// This handles the case where remote-signer crashed and restarted while the
 	// enclave kept running — we reconnect instead of launching a new one.
 	if enclaveRunning(cfg.EnclaveCID) {
 		log.Info("enclave already running, reconnecting", "cid", cfg.EnclaveCID)
@@ -73,7 +73,7 @@ func New(cfg signerconfig.AWSNitroConfig, log *slog.Logger) (*Backend, error) {
 
 	if enclaveRunning(cfg.EnclaveCID) && isEnclaveReady(cfg.EnclaveCID) {
 		// Enclave is already running and the signing port is open — skip init
-		// and just fetch the public key.  This handles Permafrost restarts.
+		// and just fetch the public key.  This handles remote-signer restarts.
 		log.Info("enclave already initialized, fetching public key", "cid", cfg.EnclaveCID)
 		var err error
 		pkBytes, err = b.fetchPublicKey()

@@ -11,16 +11,16 @@
 #
 #   # 3. Build the Docker image (run from repo root)
 #   cd ~/avalanche-kms-signer
-#   docker build -f enclave/Dockerfile -t permafrost-enclave enclave/
+#   docker build -f enclave/Dockerfile -t remote-signer-enclave enclave/
 #
 #   # 4. Package as EIF
 #   nitro-cli build-enclave \
-#     --docker-uri permafrost-enclave \
-#     --output-file permafrost.eif
+#     --docker-uri remote-signer-enclave \
+#     --output-file remote-signer.eif
 #
 #   # 5. Run the enclave
 #   nitro-cli run-enclave \
-#     --eif-path permafrost.eif \
+#     --eif-path remote-signer.eif \
 #     --cpu-count 2 \
 #     --memory 512 \
 #     --enclave-cid 16

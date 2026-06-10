@@ -49,7 +49,7 @@ aws ec2 run-instances \
   --image-id ami-xxxxxxxx \
   --instance-type c5a.xlarge \
   --enclave-options Enabled=true \
-  --iam-instance-profile Name=permafrost-validator \
+  --iam-instance-profile Name=remote-signer-validator \
   --key-name your-key-pair
 ```
 
@@ -75,7 +75,7 @@ exit
 
 ```bash
 aws kms create-key \
-  --description "permafrost BLS key encryption" \
+  --description "remote-signer BLS key encryption" \
   --key-usage ENCRYPT_DECRYPT \
   --key-spec SYMMETRIC_DEFAULT \
   --region us-east-2
@@ -148,12 +148,12 @@ cp ~/bls.key.enc .
 docker build \
   --build-arg KEY_PATH=bls.key.enc \
   --build-arg KMS_KEY_ID=arn:aws:kms:us-east-2:YOUR-ACCOUNT:key/YOUR-KEY-ID \
-  -t permafrost-enclave .
+  -t remote-signer-enclave .
 
 # Package as EIF and note the PCR0 value
 nitro-cli build-enclave \
-  --docker-uri permafrost-enclave \
-  --output-file ~/permafrost.eif
+  --docker-uri remote-signer-enclave \
+  --output-file ~/remote-signer.eif
 ```
 
 The output includes PCR values:
@@ -239,7 +239,7 @@ port:    50051
 
 nitro:
   region:      us-east-2
-  eif_path:    /home/ec2-user/permafrost.eif
+  eif_path:    /home/ec2-user/remote-signer.eif
   cpu_count:   2
   memory_mib:  512
   enclave_cid: 16
@@ -296,7 +296,7 @@ WantedBy=multi-user.target
 
 ## Key rotation
 
-When you update the Permafrost code and rebuild the enclave:
+When you update the remote-signer code and rebuild the enclave:
 
 1. Build the new EIF — get new PCR0
 2. Update the KMS key policy with the new PCR0
